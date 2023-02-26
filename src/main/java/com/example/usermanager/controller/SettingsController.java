@@ -7,7 +7,10 @@ import com.example.usermanager.dto.PushResponse;
 import com.example.usermanager.dto.SettingResponse;
 import com.example.usermanager.dto.UpdateRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.oauth2.common.exceptions.UnauthorizedClientException;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 
 @RestController
@@ -22,14 +25,24 @@ public class SettingsController {
     public SettingsController(SettingService settingService){
         this.settingService = settingService;
     }
-
+    @CrossOrigin("*")
     @PostMapping("/updateSetting")
-    public PushResponse updateSetting(@RequestBody UpdateRequest updateRequest){
-        return settingService.updateSetting(updateRequest);
+    public PushResponse updateSetting(Principal principal, @RequestBody UpdateRequest updateRequest){
+        if(principal.getName().equals(updateRequest.getEmail())) {
+            return settingService.updateSetting(updateRequest);
+        }else{
+            return null;
+        }
     }
+    @CrossOrigin("*")
     @GetMapping("/getSetting/{email}/{key}")
-    public SettingResponse getSetting(@RequestHeader("Authorization") String header, @PathVariable String email, @PathVariable String key){
-        return settingService.getSetting(email, key);
+    public SettingResponse getSetting(Principal principal, @PathVariable String email, @PathVariable String key){
+        if(principal.getName().equals(email)) {
+            System.out.println(principal);
+            return settingService.getSetting(email, key);
+        }else{
+            return null;
+        }
     }
 
 
