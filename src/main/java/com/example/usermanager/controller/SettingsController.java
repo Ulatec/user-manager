@@ -25,7 +25,7 @@ public class SettingsController {
     public SettingsController(SettingService settingService){
         this.settingService = settingService;
     }
-    @CrossOrigin("*")
+
     @PostMapping("/updateSetting")
     public PushResponse updateSetting(Principal principal, @RequestBody UpdateRequest updateRequest){
         if(principal.getName().equals(updateRequest.getEmail())) {
@@ -34,7 +34,7 @@ public class SettingsController {
             return null;
         }
     }
-    @CrossOrigin("*")
+
     @GetMapping("/getSetting/{email}/{key}")
     public SettingResponse getSetting(Principal principal, @PathVariable String email, @PathVariable String key){
         if(principal.getName().equals(email)) {
