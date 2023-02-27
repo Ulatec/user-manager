@@ -33,6 +33,7 @@ public class PurchaseController {
         String paymentStr = paymentIntent.toJson();
         return new ResponseEntity<>(paymentStr, HttpStatus.OK);
     }
+
     @PostMapping("/purchase")
     public ResponseEntity<PurchaseResponse> purchase(@RequestBody StripeResponse stripeResponse) throws StripeException {
 

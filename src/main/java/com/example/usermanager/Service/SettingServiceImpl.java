@@ -28,9 +28,15 @@ public class SettingServiceImpl implements SettingService {
     public SettingServiceImpl(){
     }
 
-    public SettingResponse getSetting(String email, String key){
-        Setting setting = settingRepository.findAllByUserEmailAndKey(email, key);
-        return new SettingResponse(setting.getKey(), setting.getValue());
+    public SettingResponse getSetting(UpdateRequest updateRequest){
+        Setting setting = settingRepository.findAllByUserEmailAndKey(updateRequest.getEmail(), updateRequest.getSetting().getKey());
+        if(setting == null){
+            //save setting passed in and return it back to user.
+            updateSetting(updateRequest);
+            return new SettingResponse(updateRequest.getSetting().getKey(), updateRequest.getSetting().getValue());
+        }else {
+            return new SettingResponse(setting.getKey(), setting.getValue());
+        }
     }
     @Override
     @Transactional

@@ -35,11 +35,11 @@ public class SettingsController {
         }
     }
 
-    @GetMapping("/getSetting/{email}/{key}")
-    public SettingResponse getSetting(Principal principal, @PathVariable String email, @PathVariable String key){
-        if(principal.getName().equals(email)) {
+    @GetMapping("/getSetting")
+    public SettingResponse getSetting(Principal principal, @RequestBody UpdateRequest updateRequest){
+        if(principal.getName().equals(updateRequest.getEmail())) {
             System.out.println(principal);
-            return settingService.getSetting(email, key);
+            return settingService.getSetting(updateRequest);
         }else{
             return null;
         }

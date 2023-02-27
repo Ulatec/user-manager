@@ -10,7 +10,7 @@ import java.security.Principal;
 
 public interface SettingService {
 
-    SettingResponse getSetting(String email, String key);
+    SettingResponse getSetting(UpdateRequest updateRequest);
     PushResponse updateSetting(UpdateRequest updateRequest);
 
 
